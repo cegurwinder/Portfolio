@@ -77,11 +77,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gurwinder Singh | Senior IT Infrastructure Engineer" },
+      { title: "Gurwinder Singh | Senior IT Support Engineer" },
       {
         name: "description",
         content:
-          "Personal website of Gurwinder Singh, Senior IT Infrastructure Engineer and EUC & Endpoint Specialist based in London, UK.",
+          "Personal website of Gurwinder Singh, Senior IT Support Engineer and EUC & Endpoint Specialist based in London, UK.",
       },
       { name: "author", content: "Gurwinder Singh" },
       { property: "og:site_name", content: "Gurwinder Singh" },
