@@ -1,132 +1,115 @@
 import { useState } from "react";
 import {
-  ArrowUpRight,
+  ArrowDownRight,
   ArrowRight,
-  ArrowDown,
-  Download,
-  Menu,
-  X,
-  MapPin,
-  Monitor,
-  ShieldCheck,
-  Cloud,
-  Check,
-  Mail,
-  Phone,
-  Plus,
-  Laptop,
-  Layers,
+  ArrowUpRight,
   Award,
+  Check,
+  ChevronRight,
+  Download,
+  Github,
+  Laptop,
+  Mail,
+  MapPin,
+  Menu,
+  Network,
+  Phone,
+  ServerCog,
+  ShieldCheck,
+  Sparkles,
+  X,
 } from "lucide-react";
 import { CV_PATH, EMAIL, PHONE, PHONE_HREF, SKILL_GROUPS } from "./data";
+import "./portfolio-modern.css";
 
-const navigation = ["About", "Experience", "Expertise", "Projects"];
+const navigation = ["About", "Experience", "Expertise", "Work"];
+
 const projects = [
   {
     number: "01",
-    category: "Endpoint management",
-    title: "A better start for every device.",
+    kicker: "Endpoint engineering",
+    title: "Autopilot-ready device delivery",
     summary:
-      "Microsoft Intune and Autopilot deployment, from provisioning to a work-ready endpoint.",
-    tools: ["Microsoft Intune", "Autopilot", "Windows 11"],
-    Icon: Laptop,
-    detail:
-      "Supported device enrolment, configuration and deployment using Microsoft Intune and Windows Autopilot. The focus: consistent setup, less manual imaging and a smoother handover to end users.",
-    approach: "Provision → Configure → Validate → Handover",
+      "Standardised Windows 11 provisioning with Microsoft Intune and Autopilot to create a smoother, more repeatable handover experience.",
+    meta: ["Microsoft Intune", "Autopilot", "Windows 11"],
+    outcome: "Consistent build process",
   },
   {
     number: "02",
-    category: "Service improvement",
-    title: "Solve it once. Share it widely.",
-    summary: "Practical knowledge articles and SOPs that make everyday support more consistent.",
-    tools: ["ServiceNow", "Knowledge management", "ITIL"],
-    Icon: Layers,
-    detail:
-      "Created and maintained troubleshooting guides, technical SOPs and knowledge articles. Clear, repeatable steps help colleagues resolve familiar issues and support users with confidence.",
-    approach: "Investigate → Document → Share → Improve",
+    kicker: "Enterprise support",
+    title: "High-priority user support",
+    summary:
+      "Delivered calm, discreet deskside and remote support for senior stakeholders across devices, Microsoft 365, identity and connectivity issues.",
+    meta: ["Microsoft 365", "VIP Support", "ServiceNow"],
+    outcome: "95%+ SLA compliance",
   },
   {
     number: "03",
-    category: "Enterprise support",
-    title: "Keep people moving forward.",
+    kicker: "Service improvement",
+    title: "Knowledge that scales",
     summary:
-      "Responsive, discreet IT support for senior stakeholders in a demanding enterprise environment.",
-    tools: ["Microsoft 365", "VIP support", "Troubleshooting"],
-    Icon: ShieldCheck,
-    detail:
-      "Provided high-priority deskside and remote support for senior stakeholders. Combined clear communication with structured troubleshooting across devices, collaboration tools and connectivity issues.",
-    approach: "Understand → Prioritise → Resolve → Follow up",
+      "Created practical SOPs and troubleshooting knowledge so recurring issues could be solved faster and more consistently across the support team.",
+    meta: ["ITIL", "Knowledge Base", "ServiceNow"],
+    outcome: "Faster repeat resolution",
   },
 ];
+
+const expertiseIcons = [ServerCog, Laptop, ShieldCheck, Network];
 
 export function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [skillIndex, setSkillIndex] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
-  const activeSkills = SKILL_GROUPS[skillIndex]!;
-  async function copyEmail() {
-    try {
-      await navigator.clipboard.writeText(EMAIL);
-      setCopied(true);
-      setCopyError(false);
-    } catch {
-      setCopyError(true);
-    }
-  }
+  const activeSkills = SKILL_GROUPS[skillIndex] ?? SKILL_GROUPS[0];
+
   return (
-    <div className="portfolio">
-      <a className="pf-skip" href="#main">
+    <div className="nr-site">
+      <a className="nr-skip" href="#main">
         Skip to content
       </a>
-      <header className="pf-header">
-        <div className="pf-container pf-nav">
-          <a
-            className="pf-brand"
-            href="#home"
-            aria-label="Gurwinder Singh home"
-            onClick={() => setMenuOpen(false)}
-          >
-            <span className="pf-monogram">
-              gs<span>.</span>
-            </span>
-            <span>
-              GURWINDER
-              <br />
-              SINGH
+
+      <header className="nr-header">
+        <div className="nr-shell nr-nav-wrap">
+          <a className="nr-brand" href="#home" onClick={() => setMenuOpen(false)}>
+            <span className="nr-brand-mark">GS</span>
+            <span className="nr-brand-copy">
+              Gurwinder Singh
+              <small>Senior IT Support Engineer</small>
             </span>
           </a>
-          <nav className="pf-desktop-nav" aria-label="Main navigation">
+
+          <nav className="nr-desktop-nav" aria-label="Primary navigation">
             {navigation.map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`}>
                 {item}
               </a>
             ))}
           </nav>
-          <a className="pf-nav-contact" href="#contact">
-            Let’s talk <ArrowUpRight size={16} />
-          </a>
-          <button
-            className="pf-menu-toggle"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </button>
+
+          <div className="nr-nav-actions">
+            <a className="nr-nav-cta" href="#contact">
+              Let&apos;s talk <ArrowUpRight size={15} />
+            </a>
+            <button
+              className="nr-menu-button"
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((value) => !value)}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
         {menuOpen && (
-          <nav
-            id="mobile-navigation"
-            className="pf-mobile-nav"
-            aria-label="Mobile navigation"
-            onKeyDown={(event) => {
-              if (event.key === "Escape") setMenuOpen(false);
-            }}
-          >
-            {[...navigation, "Contact"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}>
+          <nav className="nr-mobile-nav" aria-label="Mobile navigation">
+            {[...navigation, "Contact"].map((item, index) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                <span>0{index + 1}</span>
                 {item}
                 <ArrowUpRight size={18} />
               </a>
@@ -134,486 +117,406 @@ export function Portfolio() {
           </nav>
         )}
       </header>
+
       <main id="main">
-        <section id="home" className="pf-hero pf-container">
-          <div className="pf-hero-copy">
-            <p className="pf-eyebrow">
-              <span className="pf-dot" /> SENIOR IT SUPPORT ENGINEER
+        <section id="home" className="nr-hero nr-shell">
+          <div className="nr-hero-topline">
+            <p>
+              <span className="nr-live-dot" /> London, United Kingdom
             </p>
-            <h1>
-              Technology
-              <br />
-              that works.
-              <br />
-              <span>People who thrive.</span>
-            </h1>
-            <p className="pf-hero-intro">
-              I’m <strong>Gurwinder Singh.</strong> I connect people with reliable
-              technology—supporting enterprise users, managing endpoints and making complex IT feel
-              simple.
-            </p>
-            <div className="pf-actions">
-              <a className="pf-button pf-button-lime" href="#projects">
-                Explore my work <ArrowUpRight size={19} />
+            <p>Enterprise IT · EUC · Endpoint · Identity</p>
+          </div>
+
+          <div className="nr-hero-title" aria-label="Gurwinder Singh">
+            <span>GURWINDER</span>
+            <div className="nr-title-row">
+              <div className="nr-hero-card" aria-hidden="true">
+                <div className="nr-card-status">
+                  <span>enterprise_support.exe</span>
+                  <span className="nr-card-pulse">LIVE</span>
+                </div>
+                <div className="nr-card-orbit">
+                  <div className="nr-orbit-ring nr-ring-one" />
+                  <div className="nr-orbit-ring nr-ring-two" />
+                  <div className="nr-core">
+                    <ServerCog size={44} strokeWidth={1.2} />
+                  </div>
+                  <span className="nr-node nr-node-a">M365</span>
+                  <span className="nr-node nr-node-b">INTUNE</span>
+                  <span className="nr-node nr-node-c">ENTRA</span>
+                </div>
+                <p>
+                  People-first support.
+                  <br />
+                  <strong>Enterprise-grade delivery.</strong>
+                </p>
+              </div>
+              <span>SINGH</span>
+            </div>
+          </div>
+
+          <div className="nr-hero-bottom">
+            <div className="nr-hero-copy">
+              <p className="nr-kicker">Senior IT Support Engineer · 6+ years</p>
+              <p>
+                I keep enterprise users productive by making complex technology feel simple — from
+                Microsoft 365 and identity to endpoint management, device deployment and hands-on
+                troubleshooting.
+              </p>
+            </div>
+
+            <div className="nr-hero-actions">
+              <a className="nr-primary-button" href="#work">
+                View selected work <ArrowDownRight size={18} />
               </a>
-              <a className="pf-text-link" href={CV_PATH} download>
+              <a className="nr-secondary-button" href={CV_PATH} download>
                 Download CV <Download size={17} />
               </a>
             </div>
-            <p className="pf-location">
-              <MapPin size={14} /> London, UK <span>·</span> Open to relocation
-            </p>
           </div>
-          <div
-            className="pf-hero-art"
-            aria-label="Enterprise IT expertise: people, endpoints, cloud and identity"
-          >
-            <div className="pf-art-top">
-              <span>THE CONNECTED WORKPLACE</span>
-              <span>01 / GS</span>
-            </div>
-            <div className="pf-orbit pf-orbit-one" />
-            <div className="pf-orbit pf-orbit-two" />
-            <div className="pf-art-line pf-line-horizontal" />
-            <div className="pf-art-line pf-line-vertical" />
-            <div className="pf-art-core">
-              <Monitor size={44} strokeWidth={1.2} />
-              <span>
-                People first.
-                <br />
-                <strong>Technology enabled.</strong>
-              </span>
-            </div>
-            <div className="pf-art-node pf-node-cloud">
-              <Cloud size={21} />
-              <span>
-                Microsoft 365<small>Cloud & collaboration</small>
-              </span>
-            </div>
-            <div className="pf-art-node pf-node-device">
-              <Laptop size={21} />
-              <span>
-                Intune & Autopilot<small>Endpoint management</small>
-              </span>
-            </div>
-            <div className="pf-art-node pf-node-identity">
-              <ShieldCheck size={21} />
-              <span>
-                Entra ID<small>Identity & access</small>
-              </span>
-            </div>
-            <div className="pf-art-bottom">
-              <span className="pf-dot" /> BUILT AROUND THE END USER
-            </div>
+
+          <div className="nr-stats-grid" aria-label="Career highlights">
+            <article>
+              <span>01</span>
+              <strong>6+</strong>
+              <p>Years in IT</p>
+            </article>
+            <article>
+              <span>02</span>
+              <strong>8,000+</strong>
+              <p>Users supported</p>
+            </article>
+            <article>
+              <span>03</span>
+              <strong>95%+</strong>
+              <p>SLA compliance</p>
+            </article>
+            <article>
+              <span>04</span>
+              <strong>UK + India</strong>
+              <p>Enterprise experience</p>
+            </article>
           </div>
-          <a className="pf-scroll" href="#about">
-            <ArrowDown size={15} /> A little more about me
-          </a>
         </section>
-        <div className="pf-proof-strip">
-          <div className="pf-container pf-proof-inner">
-            <p>
-              ENTERPRISE EXPERIENCE
-              <br />
-              <strong>Built on real-world support.</strong>
-            </p>
-            <div>
-              <strong>
-                6<span>+</span>
-              </strong>
-              <small>Years in enterprise IT</small>
-            </div>
-            <div>
-              <strong>
-                8,000<span>+</span>
-              </strong>
-              <small>Users supported</small>
-            </div>
-            <div>
-              <strong>
-                95<span>%+</span>
-              </strong>
-              <small>SLA compliance</small>
-            </div>
+
+        <section id="about" className="nr-section nr-shell">
+          <div className="nr-section-label">
+            <span>01</span>
+            <p>Profile</p>
           </div>
-        </div>
-        <section id="about" className="pf-section pf-light">
-          <div className="pf-container pf-about-grid">
-            <div>
-              <p className="pf-eyebrow">01 / THE PERSON BEHIND THE SUPPORT</p>
+
+          <div className="nr-about-layout">
+            <div className="nr-sticky-heading">
+              <p className="nr-micro">THE PERSON BEHIND THE TICKETS</p>
               <h2>
-                Calm under pressure.
+                Reliable support.
                 <br />
-                <span>Curious by nature.</span>
+                <em>Clear thinking.</em>
               </h2>
             </div>
-            <div className="pf-about-text">
-              <p>
-                I’m an IT professional with experience across the UK and India, working at the
-                intersection of people, devices and enterprise technology.
+
+            <div className="nr-about-content">
+              <p className="nr-lead">
+                I&apos;m a senior IT support professional focused on the point where people, devices,
+                identity and enterprise systems meet.
               </p>
               <p>
-                On-site at GSK through Intuited Ltd, I help people stay productive through reliable
-                desktop support, Microsoft 365 troubleshooting, identity administration and endpoint
-                management.
+                Based in London, I provide on-site enterprise support at GSK through Intuited Ltd,
+                covering Microsoft 365, Windows, Intune, Autopilot, Active Directory, Entra ID,
+                ServiceNow and everyday connectivity issues.
               </p>
               <p>
-                My approach is simple: listen carefully, find the root cause, communicate clearly
-                and leave things better than I found them.
+                My approach is straightforward: understand the user&apos;s problem, isolate the root
+                cause, communicate clearly, fix it properly and document what will help the next
+                person.
               </p>
-              <div className="pf-signoff">
-                <span className="pf-small-monogram">GS</span>
-                <span>
-                  Gurwinder Singh<small>Senior IT Support Engineer · London</small>
-                </span>
+
+              <div className="nr-principles">
+                {["Listen first", "Own the issue", "Solve the cause", "Share the knowledge"].map(
+                  (item, index) => (
+                    <div key={item}>
+                      <span>0{index + 1}</span>
+                      <p>{item}</p>
+                    </div>
+                  ),
+                )}
               </div>
             </div>
           </div>
         </section>
-        <section id="experience" className="pf-section pf-light">
-          <div className="pf-container">
-            <div className="pf-section-heading">
-              <div>
-                <p className="pf-eyebrow">02 / EXPERIENCE</p>
-                <h2>
-                  Hands-on experience.
-                  <br />
-                  <span>Enterprise perspective.</span>
-                </h2>
-              </div>
-              <a className="pf-text-link" href={CV_PATH} download>
-                Full experience in my CV <Download size={17} />
-              </a>
+
+        <section id="experience" className="nr-section nr-section-dark">
+          <div className="nr-shell">
+            <div className="nr-section-label nr-section-label-dark">
+              <span>02</span>
+              <p>Experience</p>
             </div>
-            <div className="pf-experience">
-              <div className="pf-role-label">
-                <span className="pf-current">
-                  <span className="pf-dot" /> CURRENT ROLE
+
+            <div className="nr-dark-heading">
+              <p className="nr-micro">CAREER / ENTERPRISE SUPPORT</p>
+              <h2>
+                Experience built
+                <br />
+                <em>where uptime matters.</em>
+              </h2>
+            </div>
+
+            <div className="nr-experience-card nr-current-role">
+              <div className="nr-role-meta">
+                <span className="nr-live-pill">
+                  <span className="nr-live-dot" /> CURRENT
                 </span>
-                <p>London, United Kingdom</p>
+                <p>Nov 2024 — Present</p>
+                <p>London, UK</p>
               </div>
-              <div className="pf-role-content">
+              <div className="nr-role-main">
+                <p className="nr-role-overline">Intuited Ltd · On-site at GSK plc</p>
                 <h3>Senior IT Support Engineer</h3>
-                <p className="pf-company">
-                  Intuited Ltd <span>↗ On-site at GSK plc</span>
-                </p>
                 <p>
                   Enterprise deskside and EUC support in a regulated pharmaceutical environment,
-                  bringing together user support, endpoint operations and service delivery.
+                  combining high-quality user support with endpoint operations, identity and service
+                  delivery.
                 </p>
-                <ul>
-                  <li>Microsoft 365, Windows 10/11 and VIP user support.</li>
-                  <li>Device provisioning, Intune administration and Autopilot enrolment.</li>
-                  <li>
-                    Active Directory / Entra ID, access management and connectivity troubleshooting.
-                  </li>
-                  <li>
-                    ServiceNow incident management, knowledge sharing and SLA-focused support.
-                  </li>
-                </ul>
-                <div className="pf-tags">
-                  <span>Enterprise IT</span>
-                  <span>EUC & endpoints</span>
-                  <span>Service delivery</span>
+                <div className="nr-role-grid">
+                  <div>
+                    <Check size={15} />
+                    Microsoft 365, Windows 10/11 and VIP support
+                  </div>
+                  <div>
+                    <Check size={15} />
+                    Intune, Autopilot and device provisioning
+                  </div>
+                  <div>
+                    <Check size={15} />
+                    Active Directory, Entra ID and access support
+                  </div>
+                  <div>
+                    <Check size={15} />
+                    ServiceNow, incident ownership and SLA delivery
+                  </div>
                 </div>
               </div>
+              <div className="nr-role-number">01</div>
             </div>
-            <details className="pf-previous">
-              <summary>
-                <span>
-                  <small>EARLIER EXPERIENCE · INDIA</small>Steg Technologies
-                </span>
-                <span className="pf-expand-label">
-                  View career progression <Plus size={20} />
-                </span>
-              </summary>
-              <div className="pf-previous-grid">
-                {[
-                  {
-                    title: "System Administrator",
-                    date: "2019–2020",
-                    text: "Windows Server, Active Directory, virtualisation, backups and Microsoft 365 administration.",
-                  },
-                  {
-                    title: "Network Engineer",
-                    date: "2018–2019",
-                    text: "LAN/WAN, Wi-Fi and VPN support, connectivity troubleshooting and ISP coordination.",
-                  },
-                  {
-                    title: "Desktop Support Engineer",
-                    date: "2017–2018",
-                    text: "End-user support, Windows deployment, hardware troubleshooting and incident management.",
-                  },
-                ].map((role) => (
-                  <article key={role.title}>
-                    <small>{role.date}</small>
-                    <h3>{role.title}</h3>
-                    <p>{role.text}</p>
-                  </article>
-                ))}
-              </div>
-            </details>
-          </div>
-        </section>
-        <section id="expertise" className="pf-section pf-expertise">
-          <div className="pf-container">
-            <div className="pf-section-heading">
-              <div>
-                <p className="pf-eyebrow">03 / MY TOOLKIT</p>
-                <h2>
-                  The right skills.
-                  <br />
-                  <span>For the real problem.</span>
-                </h2>
-              </div>
-              <p>
-                From a single device to an enterprise environment.
-                <br />
-                Explore the tools I work with.
-              </p>
-            </div>
-            <div className="pf-skills-layout">
-              <div className="pf-skill-tabs" role="tablist" aria-label="Technical expertise">
-                {SKILL_GROUPS.map((group, i) => (
-                  <button
-                    type="button"
-                    key={group.category}
-                    id={`skill-tab-${i}`}
-                    role="tab"
-                    aria-selected={skillIndex === i}
-                    aria-controls="skill-panel"
-                    tabIndex={skillIndex === i ? 0 : -1}
-                    className={skillIndex === i ? "active" : ""}
-                    onClick={() => setSkillIndex(i)}
-                    onKeyDown={(event) => {
-                      const direction =
-                        event.key === "ArrowRight" || event.key === "ArrowDown"
-                          ? 1
-                          : event.key === "ArrowLeft" || event.key === "ArrowUp"
-                            ? -1
-                            : 0;
-                      if (direction || event.key === "Home" || event.key === "End") {
-                        event.preventDefault();
-                        const next =
-                          event.key === "Home"
-                            ? 0
-                            : event.key === "End"
-                              ? SKILL_GROUPS.length - 1
-                              : (i + direction + SKILL_GROUPS.length) % SKILL_GROUPS.length;
-                        setSkillIndex(next);
-                        document.getElementById(`skill-tab-${next}`)?.focus();
-                      }
-                    }}
-                  >
-                    <span>{String(i + 1).padStart(2, "0")}</span>
-                    {group.category}
-                    <ArrowUpRight size={18} />
-                  </button>
-                ))}
-              </div>
-              <div
-                id="skill-panel"
-                className="pf-skill-panel"
-                role="tabpanel"
-                aria-labelledby={`skill-tab-${skillIndex}`}
-                tabIndex={0}
-              >
-                <div className="pf-panel-icon">
-                  <Layers size={32} strokeWidth={1.3} />
-                </div>
-                <small>PRACTICAL, EVERYDAY EXPERTISE</small>
-                <h3>{activeSkills.category}</h3>
-                <div className="pf-skill-pills">
-                  {activeSkills.skills.map((skill) => (
-                    <span key={skill}>
-                      <Check size={13} />
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                <p>
-                  Tools are only part of the job. Clear communication, structured troubleshooting
-                  and ownership bring them together.
-                </p>
-              </div>
+
+            <div className="nr-history-grid">
+              <article>
+                <span>02</span>
+                <p>2019 — 2020</p>
+                <h3>System Administrator</h3>
+                <p>Windows Server, Active Directory, virtualisation, backups and Microsoft 365.</p>
+              </article>
+              <article>
+                <span>03</span>
+                <p>2018 — 2019</p>
+                <h3>Network Engineer</h3>
+                <p>LAN/WAN, Wi-Fi, VPN support, connectivity troubleshooting and ISP coordination.</p>
+              </article>
+              <article>
+                <span>04</span>
+                <p>2017 — 2018</p>
+                <h3>Desktop Support Engineer</h3>
+                <p>End-user support, Windows deployment, hardware troubleshooting and incidents.</p>
+              </article>
             </div>
           </div>
         </section>
-        <section id="projects" className="pf-section pf-light">
-          <div className="pf-container">
-            <div className="pf-section-heading">
-              <div>
-                <p className="pf-eyebrow">04 / SELECTED WORK</p>
-                <h2>
-                  Practical work.
-                  <br />
-                  <span>Meaningful improvements.</span>
-                </h2>
-              </div>
-              <p>
-                A few examples of how I contribute
-                <br />
-                to better everyday IT.
-              </p>
-            </div>
-            <div className="pf-project-grid">
-              {projects.map(
-                ({ number, category, title, summary, tools, Icon, detail, approach }) => (
-                  <article className="pf-project" key={number}>
-                    <div className={`pf-project-art pf-project-art-${number}`} aria-hidden="true">
-                      <span>{number} / FIELD NOTES</span>
-                      <Icon size={72} strokeWidth={1} />
-                      <div className="pf-art-caption">{category}</div>
-                    </div>
-                    <div className="pf-project-body">
-                      <small>{category}</small>
-                      <h3>{title}</h3>
-                      <p>{summary}</p>
-                      <div className="pf-tags">
-                        {tools.map((tool) => (
-                          <span key={tool}>{tool}</span>
-                        ))}
-                      </div>
-                      <details>
-                        <summary>
-                          Read the approach <Plus size={18} />
-                        </summary>
-                        <p>{detail}</p>
-                        <p className="pf-approach">{approach}</p>
-                      </details>
-                    </div>
-                  </article>
-                ),
-              )}
-            </div>
+
+        <section id="expertise" className="nr-section nr-shell">
+          <div className="nr-section-label">
+            <span>03</span>
+            <p>Expertise</p>
           </div>
-        </section>
-        <section id="credentials" className="pf-section pf-light pf-credentials">
-          <div className="pf-container">
-            <p className="pf-eyebrow">05 / CONTINUOUS LEARNING</p>
-            <div className="pf-credential-grid">
-              <div>
-                <h2>
-                  Grounded in knowledge.
-                  <br />
-                  <span>Driven by curiosity.</span>
-                </h2>
-                <p>
-                  A foundation in computing, service management
-                  <br />
-                  and networking.
-                </p>
-              </div>
-              <div className="pf-qualifications">
-                <div>
-                  <Award />
-                  <span>
-                    <strong>ITIL v4 Foundation</strong>
-                    <small>IT service management</small>
-                  </span>
-                  <span className="pf-credential-type">CERTIFICATION</span>
-                </div>
-                <div>
-                  <ShieldCheck />
-                  <span>
-                    <strong>Cisco CCNA</strong>
-                    <small>Cisco Certified Network Associate</small>
-                  </span>
-                  <span className="pf-credential-type">CERTIFICATION</span>
-                </div>
-                <details>
-                  <summary>
-                    Education <Plus size={18} />
-                  </summary>
-                  <ul>
-                    <li>
-                      <strong>Master of Business Administration</strong>
-                      <small>Leeds Beckett University · 2020–2022</small>
-                    </li>
-                    <li>
-                      <strong>MSc Computer Science</strong>
-                      <small>Guru Nanak Dev University · 2015–2017</small>
-                    </li>
-                    <li>
-                      <strong>Bachelor of Computer Applications</strong>
-                      <small>Guru Nanak Dev University · 2012–2015</small>
-                    </li>
-                  </ul>
-                </details>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id="contact" className="pf-contact">
-          <div className="pf-container">
-            <p className="pf-eyebrow">
-              <span className="pf-dot" /> LET’S CONNECT
-            </p>
-            <div className="pf-contact-heading">
+
+          <div className="nr-expertise-heading">
+            <div>
+              <p className="nr-micro">SERVICES / SKILLS / TOOLS</p>
               <h2>
-                Good technology starts
+                What I do
                 <br />
-                with a <span>conversation.</span>
+                <em>best.</em>
               </h2>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="pf-contact-arrow"
-                aria-label="Email Gurwinder Singh"
-              >
-                <ArrowUpRight size={46} strokeWidth={1.4} />
-              </a>
             </div>
             <p>
-              Looking for someone who takes ownership of IT and puts people first?
-              <br />
-              Let’s talk about your team’s next chapter.
+              Broad enterprise IT support rather than one narrow specialism — practical skills that
+              connect endpoint, identity, cloud, networking and users.
             </p>
-            <div className="pf-contact-details">
-              <div>
-                <small>EMAIL ME</small>
-                <a href={`mailto:${EMAIL}`}>
-                  <Mail size={18} />
-                  {EMAIL}
-                </a>
-                <button type="button" onClick={copyEmail}>
-                  {copied ? "Email copied ✓" : "Copy email address"}
-                </button>
-                <span className="pf-copy-status" role="status">
-                  {copyError
-                    ? `Please copy this address manually: ${EMAIL}`
-                    : copied
-                      ? "Email address copied to clipboard."
-                      : ""}
-                </span>
-              </div>
-              <div>
-                <small>GIVE ME A CALL</small>
-                <a href={`tel:${PHONE_HREF}`}>
-                  <Phone size={18} />
-                  {PHONE}
-                </a>
-              </div>
-              <div>
-                <small>BASED IN</small>
-                <p>London, United Kingdom</p>
-                <span>Open to UK relocation</span>
-              </div>
+          </div>
+
+          <div className="nr-expertise-layout">
+            <div className="nr-expertise-tabs" role="tablist" aria-label="Technical skill groups">
+              {SKILL_GROUPS.map((group, index) => {
+                const Icon = expertiseIcons[index % expertiseIcons.length] ?? ServerCog;
+                return (
+                  <button
+                    key={group.category}
+                    type="button"
+                    role="tab"
+                    aria-selected={skillIndex === index}
+                    className={skillIndex === index ? "is-active" : ""}
+                    onClick={() => setSkillIndex(index)}
+                  >
+                    <span className="nr-tab-index">{String(index + 1).padStart(2, "0")}</span>
+                    <Icon size={20} strokeWidth={1.5} />
+                    <span>{group.category}</span>
+                    <ChevronRight size={19} />
+                  </button>
+                );
+              })}
             </div>
+
+            <div className="nr-skill-panel" role="tabpanel">
+              <div className="nr-skill-panel-top">
+                <div>
+                  <span>ACTIVE CAPABILITY</span>
+                  <h3>{activeSkills.category}</h3>
+                </div>
+                <Sparkles size={24} />
+              </div>
+              <div className="nr-skill-cloud">
+                {activeSkills.skills.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </div>
+              <p>
+                Strong technical support works when tools are backed by structured troubleshooting,
+                good judgement and clear communication.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="work" className="nr-section nr-work-section">
+          <div className="nr-shell">
+            <div className="nr-section-label">
+              <span>04</span>
+              <p>Selected work</p>
+            </div>
+
+            <div className="nr-work-heading">
+              <p className="nr-micro">PRACTICAL PROJECTS / REAL OUTCOMES</p>
+              <h2>
+                Work that makes
+                <br />
+                <em>support better.</em>
+              </h2>
+            </div>
+
+            <div className="nr-project-list">
+              {projects.map((project) => (
+                <article key={project.number} className="nr-project-card">
+                  <div className="nr-project-number">{project.number}</div>
+                  <div className="nr-project-copy">
+                    <p className="nr-project-kicker">{project.kicker}</p>
+                    <h3>{project.title}</h3>
+                    <p>{project.summary}</p>
+                    <div className="nr-project-tags">
+                      {project.meta.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="nr-project-outcome">
+                    <span>OUTCOME</span>
+                    <strong>{project.outcome}</strong>
+                    <ArrowUpRight size={22} />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="nr-section nr-shell nr-credentials">
+          <div className="nr-section-label">
+            <span>05</span>
+            <p>Credentials</p>
+          </div>
+
+          <div className="nr-credential-grid">
+            <article className="nr-credential-feature">
+              <Award size={28} strokeWidth={1.4} />
+              <p>CERTIFICATIONS</p>
+              <h3>ITIL v4 Foundation</h3>
+              <h3>CCNA</h3>
+              <span>Service management + networking fundamentals</span>
+            </article>
+            <article>
+              <p>EDUCATION</p>
+              <h3>Master of Science</h3>
+              <span>Postgraduate education</span>
+            </article>
+            <article>
+              <p>EDUCATION</p>
+              <h3>Bachelor of Computer Applications</h3>
+              <span>Computing foundation</span>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" className="nr-contact">
+          <div className="nr-shell">
+            <div className="nr-contact-top">
+              <p className="nr-micro">AVAILABLE FOR THE RIGHT OPPORTUNITY</p>
+              <h2>
+                Need someone who can
+                <br />
+                <em>keep IT moving?</em>
+              </h2>
+            </div>
+
+            <div className="nr-contact-grid">
+              <a href={`mailto:${EMAIL}`}>
+                <span>
+                  <Mail size={20} /> Email
+                </span>
+                <strong>{EMAIL}</strong>
+                <ArrowUpRight size={22} />
+              </a>
+              <a href={`tel:${PHONE_HREF}`}>
+                <span>
+                  <Phone size={20} /> Phone
+                </span>
+                <strong>{PHONE}</strong>
+                <ArrowUpRight size={22} />
+              </a>
+              <a href="https://github.com/cegurwinder" target="_blank" rel="noreferrer">
+                <span>
+                  <Github size={20} /> GitHub
+                </span>
+                <strong>@cegurwinder</strong>
+                <ArrowUpRight size={22} />
+              </a>
+              <a href={CV_PATH} download>
+                <span>
+                  <Download size={20} /> Resume
+                </span>
+                <strong>Download CV</strong>
+                <ArrowUpRight size={22} />
+              </a>
+            </div>
+
+            <footer className="nr-footer">
+              <div className="nr-footer-brand">
+                <span className="nr-brand-mark nr-brand-mark-light">GS</span>
+                <div>
+                  Gurwinder Singh
+                  <small>Senior IT Support Engineer</small>
+                </div>
+              </div>
+              <div className="nr-footer-meta">
+                <span>
+                  <MapPin size={14} /> London, United Kingdom
+                </span>
+                <span>© {new Date().getFullYear()} Gurwinder Singh</span>
+              </div>
+              <a href="#home">
+                Back to top <ArrowRight size={16} />
+              </a>
+            </footer>
           </div>
         </section>
       </main>
-      <footer className="pf-footer pf-container">
-        <a className="pf-brand" href="#home">
-          <span className="pf-monogram">
-            gs<span>.</span>
-          </span>
-          <span>GURWINDER SINGH</span>
-        </a>
-        <p>© 2026 Gurwinder Singh</p>
-        <a href="#home">
-          Back to top <ArrowRight size={16} className="pf-up-arrow" />
-        </a>
-      </footer>
     </div>
   );
 }
